@@ -1,0 +1,237 @@
+<div class="container-fluid">
+    <div>
+        <img src="./assets/images/logo.png" class="top-image" />
+    </div>
+
+    <div class="hero-bg">
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12 mt-5 text-center">
+                    <a style="font-style: italic; font-weight: 200;">Ciphe.org.uk</a>
+                </div>
+                <div class="col-md-12 mt-2">
+                    <h1 class="text-center">The Pipe Sizing Tool</h1>
+                </div>
+                <div class="col-md-12 mt-2 mb-4">
+                    <p>Selecting the correct pipe size for your project is critical for the safe
+                        <br> and efficient operation of your heating and hot water system. </p>
+                </div>
+
+            </div>
+            <form [formGroup]="PipeForm">
+
+                <div class="row">
+
+                    <!-- Massflow -->
+                    <!-- WaterTemperature -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Water temperature (oC)</label>
+                            <select class="form-control" formControlName="temperature">
+                                <option value="">Select</option>
+                                <option *ngFor="let water of AllDropDown.WaterTemperature" value={{water.value}}>
+                                    {{water.name}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the Mass flow (kg/s)</label>
+                            <input class="form-control" type="text" formControlName="massflow">
+                        </div>
+                    </div>
+                    <!-- Volume flow -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the Volume flow (I/s)</label>
+                            <input class="form-control" type="text" formControlName="volflow" (change)="change_volflow($event.target.value)">
+                        </div>
+                    </div>
+
+                    <!-- Heating Cooling Load -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the Heating/cooling load (kw)</label>
+                            <input class="form-control" type="text" formControlName="heatload" (change)="change_heatload($event.target.value)">
+                        </div>
+                    </div>
+
+                    <!-- PressureLoos Fitting -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="fitting">Pressure loss from fittings (%)</label>
+                            <select class="form-control" formControlName="fittings">
+                                <option value="">Select</option>
+                                <option *ngFor="let pressure of AllDropDown.PressureFitting" value={{pressure.value}}>
+                                    {{pressure.name}}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <!-- Delta T -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Delta T (oC)</label>
+                            <select class="form-control" formControlName="deltaT" (change)="change_heatload($event.target.value)">
+                                <!-- <option value="6">Select</option> -->
+                                <option *ngFor="let delta of AllDropDown.Delta" value={{delta.value}}>{{delta.name}}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <!-- Total length -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the total length of pipe (m)</label>
+                            <input class="form-control" type="text" formControlName="pipe_length" (change)="temp($event.target.value)">
+                        </div>
+
+                    </div>
+
+                    <!-- Max Velocity -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the max velocity limit (m/s)</label>
+                            <input class="form-control" type="text" formControlName="vel_limit" (change)="dialone($event.target.value)">
+                        </div>
+                    </div>
+
+                    <!-- max pressure loss limit -->
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="control-label">Enter the max pressure loss limit (Pa/m) </label>
+                            <input class="form-control" type="text" formControlName="pa_limit" (change)="dial3set($event.target.value)">
+                        </div>
+
+                    </div>
+
+                    <!-- PipeType -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Pipe type</label>
+                            <select class="form-control" formControlName="pipe" (change)="pipeType($event.target.value)">
+                                <option value="">Select</option>
+                                <option *ngFor="let pipetypes of AllDropDown.PipeType" value={{pipetypes.value}}>
+                                    {{pipetypes.name}}
+                                </option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <!-- pipediameters -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Choose your pipe diameter (mm)</label>
+                            <select class="form-control" formControlName="selectdiameter" (change)="selectedOption($event.target.selectedIndex)">
+                                <option value="" selected>Select</option>
+                                <option *ngFor="let pipediameters of Diameters;let i = index" value={{pipediameters}}>
+                                    {{pipediameters}} </option>
+                            </select>
+                        </div>
+
+                    </div>
+                    <div class="col-md-12 mb-3 mt-4">
+                        <h2>Or Specify</h2>
+                    </div>
+                    <!-- Internal Diameter -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the Internal Diameter (mm)</label>
+                            <input class="form-control" type="text" formControlName="diameter">
+                        </div>
+
+                    </div>
+                    <!-- Roughness -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Enter the pipe roughness (m)</label>
+                            <input class="form-control" type="text" formControlName="roughness">
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-12 mb-5 mt-2">
+                        <button class="btn btn-lg btn-light" (click)="pressureCalc(PipeForm.value)">Calculate</button>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Pressure drop per unit length (Pa/m)</label>
+                            <input class="form-control" type="text" formControlName="pressure_drop">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Equivalent length le (m) </label>
+                            <input class="form-control" type="text" formControlName="eq_length">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Velocity Pressure (Pa) </label>
+                            <input class="form-control" type="text" formControlName="vel_pressure">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Velocity (m/s)</label>
+                            <input class="form-control" type="text" formControlName="velocity">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Density (kg/m3)</label>
+                            <input class="form-control" type="text" formControlName="density">
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="control-label">Reynolds Number </label>
+                            <input class="form-control" type="text" formControlName="reynolds">
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-2">
+        <h2>Pipe sizing results</h2>
+        <p> The following results are calculated using the Colebrook White equation</p>
+
+    </div>
+
+
+    <div class="d-flex justify-content-center">
+        <div id="chart_div" class="w-400 h-120"></div>
+        <div id="chart_div2" class="w-400 h-120"></div>
+        <div id="chart_div4" class="w-400 h-120"></div>
+        <div id="chart_div3" class="w-400 h-120"></div>
+
+    </div>
+
+
+
+    <div class="mb-1">
+        <img src="./assets/images/pipe.JPG" class="bottomimage" alt="">
+    </div>
+</div>
